@@ -3,21 +3,12 @@ import { GOOGLE_MAPS_APIKEY } from '@env';
 import { useDispatch } from 'react-redux';
 import { setOrigin, setDestination } from './features/navSlice';
 
-const GooglePlacesInput = () => {
+const GooglePlacesInput = ({ placeholder, styles, onPress }) => {
   const dispatch = useDispatch();
   return (
     <GooglePlacesAutocomplete
-      placeholder='Where from?'
-      onPress={(data, details = null) => {
-        // 'details' is provided when fetchDetails = true
-        dispatch(
-          setOrigin({
-            location: details.geometry.location,
-            description: data.description,
-          })
-        );
-        dispatch(setDestination(null));
-      }}
+      placeholder={placeholder}
+      onPress={onPress}
       query={{
         key: GOOGLE_MAPS_APIKEY,
         language: 'en',
@@ -27,14 +18,7 @@ const GooglePlacesInput = () => {
       debounce={400}
       enablePoweredByContainer={false}
       returnKeyType={'search'}
-      styles={{
-        container: {
-          flex: 0,
-        },
-        textInput: {
-          fontSize: 18,
-        },
-      }}
+      styles={styles}
     />
   );
 };

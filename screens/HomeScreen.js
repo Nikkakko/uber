@@ -6,6 +6,7 @@ import NavOptions from '../src/components/NavOptions';
 import GooglePlacesInput from '../src/GooglePlacesSInput';
 import { useDispatch } from 'react-redux';
 import { setDestination, setOrigin } from '../src/features/navSlice';
+import NavFavorites from '../src/components/NavFavorites';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -20,11 +21,33 @@ const HomeScreen = () => {
           }}
         />
 
-        <GooglePlacesInput />
+        <GooglePlacesInput
+          placeholder='Where from?'
+          styles={fromInputBoxStyles}
+          onPress={(data, details = null) => {
+            dispatch(
+              setOrigin({
+                location: details.geometry.location,
+                description: data.description,
+              })
+            );
+            dispatch(setDestination(null));
+          }}
+        />
         <NavOptions />
+        <NavFavorites />
       </View>
     </SafeAreaView>
   );
 };
+
+const fromInputBoxStyles = StyleSheet.create({
+  container: {
+    flex: 0,
+  },
+  textInput: {
+    fontSize: 18,
+  },
+});
 
 export default HomeScreen;
